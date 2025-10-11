@@ -8,7 +8,8 @@ n = n.split("\n")
 
 print(n)
 
-
-total = sum(n)
+total = 0
+for x in n:
+    total = total + int(x) 
 
 (print("The sum of all numbers is:", total))
