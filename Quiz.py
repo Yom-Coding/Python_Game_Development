@@ -6,6 +6,14 @@ HEIGHT = 550
 
 questions = []
 
+current_question = 0
+
+total_question = 0
+
+score = 0
+
+game_over = False
+
 marquee = Rect (0,0 , WIDTH , 80)
 question_box = Rect (0,120 , 400 , 120)
 timer = Rect (440,120, 160, 120)
@@ -19,40 +27,55 @@ options = [opt1, opt2, opt3, opt4]
 
 def draw():
     screen.fill("white")
-    screen.draw.filled_rect(marquee, "black" )
-    screen.draw.filled_rect(question_box, "black" )
-    screen.draw.filled_rect(timer, "black" )
-    for option in options:
-        screen.draw.filled_rect(option, "black" )
+    if not game_over:
+        screen.draw.filled_rect(marquee, "black" )
+        screen.draw.filled_rect(question_box, "black" )
+        screen.draw.filled_rect(timer, "black" )
+        for option in options:
+            screen.draw.filled_rect(option, "black" )
 
-    screen.draw.filled_rect(skip, "black" )
+        screen.draw.filled_rect(skip, "black" )
 
-    screen.draw.textbox(question[0].strip(), question_box, color='white')
-    screen.draw.textbox(question[1].strip(), opt1, color='white')
-    screen.draw.textbox(question[2].strip(), opt2, color='white')
-    screen.draw.textbox(question[3].strip(), opt3, color='white')
-    screen.draw.textbox(question[4].strip(), opt4, color='white')
-    screen.draw.textbox("Skip", skip, color='white', angle=-90)
+        screen.draw.textbox(question[0].strip(), question_box, color='white')
+        screen.draw.textbox(question[1].strip(), opt1, color='white')
+        screen.draw.textbox(question[2].strip(), opt2, color='white')
+        screen.draw.textbox(question[3].strip(), opt3, color='white')
+        screen.draw.textbox(question[4].strip(), opt4, color='white')
+        screen.draw.textbox("Skip", skip, color='white', angle=-90)
+        screen.draw.textbox("Welcome to the Quiz Master. This is Q" +str(current_question) + " out of " + str(total_question) + ".", marquee, color='white')
+    else:
+        screen.draw.text("The Game Is Over. Your Score was " + str(score) + " Out of " + str(total_question), center = (WIDTH // 2, HEIGHT // 2), color = 'black')
+
 
 def on_mouse_down(pos):
-    print("HELLO")
-    global question
+    global question, score
     if skip.collidepoint(pos):
-        print("SKIP")
         question = read_a_question()
+
+    for option in options:
+        if option.collidepoint(pos):
+            if options.index(option) == int(question[5]) - 1:
+                print("correct")
+                score = score + 1
+            question = read_a_question()
+            
 
 
 def read_a_question():
-    print("READ")
+    global current_question, game_over
     if len(questions) >0 :
+        current_question = current_question + 1
         return questions.pop(0).split("|")
+    else:
+        game_over = True
 
 
 def read_question_file():
-    global questions
+    global questions, total_question
     f=open("questions.txt", "r")
     questions=f.read().split("\n")
     f.close()
+    total_question = len(questions)
     
 
     
