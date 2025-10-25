@@ -8,6 +8,10 @@ questions = []
 
 current_question = 0
 
+
+
+remaining_time = 10
+
 total_question = 0
 
 score = 0
@@ -42,9 +46,11 @@ def draw():
         screen.draw.textbox(question[3].strip(), opt3, color='white')
         screen.draw.textbox(question[4].strip(), opt4, color='white')
         screen.draw.textbox("Skip", skip, color='white', angle=-90)
+        screen.draw.textbox(str(remaining_time), timer, color='white')
         screen.draw.textbox("Welcome to the Quiz Master. This is Q" +str(current_question) + " out of " + str(total_question) + ".", marquee, color='white')
     else:
         screen.draw.text("The Game Is Over. Your Score was " + str(score) + " Out of " + str(total_question), center = (WIDTH // 2, HEIGHT // 2), color = 'black')
+
 
 
 def on_mouse_down(pos):
@@ -62,9 +68,10 @@ def on_mouse_down(pos):
 
 
 def read_a_question():
-    global current_question, game_over
+    global current_question, game_over, remaining_time
     if len(questions) >0 :
         current_question = current_question + 1
+        remaining_time = 10
         return questions.pop(0).split("|")
     else:
         game_over = True
@@ -79,7 +86,13 @@ def read_question_file():
     
 
     
-    
+def update_time():
+    global remaining_time, question
+    if remaining_time >0:
+        remaining_time = remaining_time - 1
+    else:
+        question = read_a_question()
+
 
 
 
@@ -91,6 +104,6 @@ question = read_a_question()
 print(question)
 
 
-
+clock.schedule_interval(update_time, 1)
 
 pgzrun.go()
