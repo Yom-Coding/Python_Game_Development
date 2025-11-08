@@ -15,6 +15,7 @@ x_offset = 0
 lives = 3
 game_over = False
 speed = 5
+last_speed_up = 0
 
 def place_circle():
     circle.x = randint (70, WIDTH - 70)
@@ -24,9 +25,11 @@ def place_circle():
 circle = Actor("circle")
 place_circle()
 
+
+
 def draw():
+    screen.fill("Blue")
     if not game_over:
-        screen.fill("Blue")
         paddle.draw()
         circle.draw()
         screen.draw.text(f"Score : {score}", (10,10))
@@ -35,7 +38,7 @@ def draw():
         screen.draw.text("The Game Is Over. Your Score was " + str(score), center = (WIDTH // 2, HEIGHT // 2), color = 'white')
 
 def update():
-    global ball_direction, score, x_offset, lives, game_over, speed
+    global ball_direction, score, x_offset, lives, game_over, speed, last_speed_up
     if keyboard.left:
         paddle.x = paddle.x - 10
     
@@ -65,9 +68,10 @@ def update():
     if lives == 0:
         game_over = True
 
-    if score % 10 == 0 and score != 0:
+    if score // 10 > last_speed_up:
         print("HI")
         speed = speed + 2
+        last_speed_up = score // 10
 
 
 
