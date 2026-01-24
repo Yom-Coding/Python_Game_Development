@@ -18,6 +18,8 @@ yellow_spaceship = pygame.image.load("/Users/yompatel/Desktop/Jet Learn/Pro Game
 yellow_spaceship = pygame.transform.scale(yellow_spaceship, (spaceship_height, spaceship_width))
 yellow_spaceship = pygame.transform.rotate(yellow_spaceship, 270)
 MAXIMUM_BULLETS = 2
+RED_SPACESHIP_HIT = pygame.USEREVENT + 1
+YELLOW_SPACESHIP_HIT = pygame.USEREVENT + 2
 
 def red_spaceship_movement(red_rectangle, keys_pressed):
     if keys_pressed[pygame.K_a] and red_rectangle.left > 0:
@@ -42,6 +44,13 @@ def yellow_spaceship_movement(yellow_rectangle, keys_pressed):
 def bullets_movement(red_bullets, yellow_bullets, red_rectangle, yellow_rectangle):
     for bullet in red_bullets:
         bullet.x = bullet.x + 5
+        if bullet.x > WIDTH:
+            red_bullets.remove(bullet)
+        if yellow_rectangle.colliderect(bullet):
+            pygame.event.post(pygame.event.Event(YELLOW_SPACESHIP_HIT))
+            red_bullets.remove(bullet)
+    
+    
 
 
 def main():
@@ -67,6 +76,8 @@ def main():
                 if event.key == pygame.K_q and len(red_spaceship_bullets) < MAXIMUM_BULLETS:
                     red_bullet = pygame.Rect(red_rectangle.right, red_rectangle.centery, 10, 7)
                     red_spaceship_bullets.append(red_bullet)
+            if event.type == YELLOW_SPACESHIP_HIT:
+                print("Yellow Hit")
 
             
         all_keys = pygame.key.get_pressed()
