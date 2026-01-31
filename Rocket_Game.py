@@ -16,9 +16,9 @@ clock = pygame.time.Clock()
 
 
 rocket_x = WIDTH // 2
-print(rocket_x)
+#print(rocket_x)
 rocket_y = HEIGHT // 2
-print(rocket_y)
+#print(rocket_y)
 rocket_width = 50
 rocket_height = 50
 
@@ -33,7 +33,7 @@ font = pygame.font.SysFont(None, 36)
 
 
 start_time = pygame.time.get_ticks()
-time_limit = 300 
+time_limit = 30 
 
 run = True
 while run:
@@ -41,21 +41,21 @@ while run:
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
     
-    print("Mouse: " + str(mouse_x),str(mouse_y))
+    #print("Mouse: " + str(mouse_x),str(mouse_y))
    
     rocket_x = mouse_x - 75
     rocket_y = mouse_y - 20
-    print("Rocket: " + str(rocket_x),str(rocket_y))
+    #print("Rocket: " + str(rocket_x),str(rocket_y))
 
 
     screen.blit(rocket_img, (rocket_x, rocket_y))
     pygame.draw.circle(screen, (255, 0, 0), (circle_x, circle_y), circle_radius)
 
-    print ("Circle Original: " + str(circle_x),str(circle_y))
+    #print ("Circle Original: " + str(circle_x),str(circle_y))
 
     if (mouse_x > circle_x - 10 and mouse_x < circle_x + 10 and
        mouse_y > circle_y - 10 and mouse_y < circle_y + 10):
-        print("Mouse: " + str(mouse_x),str(mouse_y) + "Rocket: " + str(rocket_x),str(rocket_y) + "Circle Original: " + str(circle_x),str(circle_y) )
+  #      print("Mouse: " + str(mouse_x),str(mouse_y) + "Rocket: " + str(rocket_x),str(rocket_y) + "Circle Original: " + str(circle_x),str(circle_y) )
 #    if rocket_x == circle_x - 75 and rocket_y == circle_y + 25 :
        
         score += 1
