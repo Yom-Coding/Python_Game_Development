@@ -21,8 +21,8 @@ MAXIMUM_BULLETS = 2
 RED_SPACESHIP_HIT = pygame.USEREVENT + 1
 YELLOW_SPACESHIP_HIT = pygame.USEREVENT + 2
 font = pygame.font.SysFont("Calibri", 40)
-FIRE_SOUND = pygame.mixer.Sound
-
+FIRE_SOUND = pygame.mixer.Sound("/Users/yompatel/Desktop/Jet Learn/Pro Game Developer/Space Invaders/images_and_assets/gun+silencer.mp3")
+HIT_SOUND = pygame.mixer.Sound("/Users/yompatel/Desktop/Jet Learn/Pro Game Developer/Space Invaders/images_and_assets/grenade+1.mp3")
 
 def red_spaceship_movement(red_rectangle, keys_pressed):
     if keys_pressed[pygame.K_a] and red_rectangle.left > 0:
@@ -97,16 +97,20 @@ def main():
                 if event.key == pygame.K_q and len(red_spaceship_bullets) < MAXIMUM_BULLETS:
                     red_bullet = pygame.Rect(red_rectangle.right, red_rectangle.centery, 10, 7)
                     red_spaceship_bullets.append(red_bullet)
+                    FIRE_SOUND.play()
                 if event.key == pygame.K_SLASH and len(yellow_spaceship_bullets) < MAXIMUM_BULLETS:
                     yellow_bullet = pygame.Rect(yellow_rectangle.left, yellow_rectangle.centery, 10, 7)
                     yellow_spaceship_bullets.append(yellow_bullet)
+                    FIRE_SOUND.play()
                     print(yellow_spaceship_bullets)
 
             if event.type == YELLOW_SPACESHIP_HIT and yellow_spaceship_lives > 0:
                 yellow_spaceship_lives = yellow_spaceship_lives - 1
+                HIT_SOUND.play()
 
             if event.type == RED_SPACESHIP_HIT and red_spaceship_lives > 0:
                 red_spaceship_lives = red_spaceship_lives - 1
+                HIT_SOUND.play()
             
             if red_spaceship_lives == 0:
                 yellow_win = font.render("YELLOW SPACESHIP HAS WON!", True, (255,255,0))
